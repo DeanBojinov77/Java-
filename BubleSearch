@@ -1,0 +1,66 @@
+
+import java.util.Scanner;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Dean
+ */
+public class RecursiveBinarySearch {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String word1=sc.nextLine();
+        int searchNum=Integer.parseInt(word1);
+        String [] words=sc.nextLine().split(" ");
+        int [] numbers=new int[words.length];
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i]=Integer.parseInt(words[i]);
+        }
+        boolean s=BinarySearch(0,words.length,searchNum,numbers);
+        if (s==false) {
+            System.out.println("-1");
+        }
+    }
+
+    private static boolean BinarySearch(int min, int max,int searchedNum,int [] numbers) {
+       int num=(max-min)/2+min; 
+        if (min+1==max) {
+            if (numbers[min]==searchedNum) {
+                System.out.println(min);
+                return true;
+            }else if(numbers[max]==searchedNum) {
+                System.out.println(max);
+                return true;
+            }
+            return false;
+        }
+        if (searchedNum==numbers[num]){
+            num=Validation(numbers,num);
+            System.out.println(num);
+            return true;
+        }else if (searchedNum>numbers[num] && num!=numbers.length-1) {
+            min=num;
+           return BinarySearch(min,max,searchedNum,numbers);
+        }else if(searchedNum<numbers[num] && num!=1)  {
+            max=num;
+           return BinarySearch(min,max,searchedNum,numbers);
+        }else if (num==numbers.length-1 && searchedNum==numbers[num] || num==max && searchedNum==numbers[num]) {
+            System.out.println(num);
+            return true;
+        }
+        return false;
+    }
+
+    private static int Validation(int[] numbers, int num) {
+        if (num-1>=0 && numbers[num]==numbers[num-1]) {
+            num--;
+          return Validation(numbers,num);
+        }
+        return num;
+    }
+}
