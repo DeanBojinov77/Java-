@@ -1,0 +1,109 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Dean
+ */
+public class DragonSharp {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int loop=sc.nextInt();
+        sc.nextLine();
+        boolean isTrue=true;
+        boolean listC=true;
+        boolean state=true;
+        List<String> list=new ArrayList<String>();
+        for (int i = 0; i < loop; i++) {
+            Pattern p=Pattern.compile("if \\(\\d+(==|>|<)\\d+\\) loop \\d+ out \".+\";|if \\(\\d+(==|>|<)\\d+\\) out \".+\";|else loop \\d+ out \".+\";|else out \".+\";");
+            String lane=sc.nextLine();
+            Matcher m1=p.matcher(lane);
+            byte count=0;
+            while (m1.find()) {
+                count++;
+            }
+            if (count==0) {
+                listC=false;
+                 System.out.println("Compile time error @ line "+(i+1)); 
+                break;
+            }
+            if (lane.charAt(lane.length()-1)!=';') {
+                System.out.println("Compile time error @ line "+(i+1));
+                listC=false;
+                break;
+            }
+            if (isTrue==false) {
+                isTrue=true;
+                   listC=GetData(list,lane,listC);
+                 continue;
+            }
+            
+            if(lane.contains("if")){
+                Pattern patt=Pattern.compile("\\((\\d+)(==|>|<)(\\d+)\\)");
+                Matcher m=patt.matcher(lane);
+                m.find();
+                int a=Integer.parseInt(m.group(1));
+                int b=Integer.parseInt(m.group(3));
+                String str=m.group(2);
+                if (str.equals("==") && a==b) {
+                      listC=GetData(list,lane,listC);
+                }else if (str.equals(">") && a>b) {
+                       listC=GetData(list,lane,listC);
+                }else if (str.equals("<") && a<b) {
+                     listC=GetData(list,lane,listC);
+                }else{
+                    isTrue=false;
+                    continue;
+                }
+            }else{
+        Pattern patt=Pattern.compile("out \"(.+)\"");
+        Matcher m=patt.matcher(lane);
+        m.find();
+        try{
+            if (m.group().equals(null)) {
+                listC=false;
+            }
+        }catch(Exception e){
+            listC=false;
+        }
+            }
+                if (listC==false) {
+                System.out.println("Compile time error @ line "+(i+1)); 
+                break;
+            }
+        }
+        if (listC) {
+            for (String string : list) {
+                System.out.println(string);
+            }
+        }
+    }
+
+    private static boolean GetData(List<String> list, String lane, boolean listC) {
+        int loop=1;
+        if (lane.contains("loop")) {
+            Pattern loopP=Pattern.compile("loop (\\d+)");
+            Matcher m=loopP.matcher(lane);
+            m.find();
+            loop=Integer.parseInt(m.group(1));
+        }
+        Pattern patt=Pattern.compile("out \"(.+)\"");
+        Matcher m=patt.matcher(lane);
+        while (m.find()) {
+        for (int i = 0; i < loop; i++) {
+            list.add(m.group(1));
+        }
+        return true;
+    }
+         return false;
+    }
+}
