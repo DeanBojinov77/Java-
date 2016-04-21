@@ -1,0 +1,120 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package marth13;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+/**
+ *
+ * @author Dean
+ */
+public class ArrangeNumbers {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String [] numbers=sc.nextLine().split(", ");
+        ArrayList<String> list=new ArrayList<String>();
+        for (int i = 0; i < numbers.length; i++) {
+             String string="";
+           
+            for (int j = 0; j < numbers[i].length(); j++) {
+                char c=numbers[i].charAt(j);
+                switch (c) {
+                    case '0':
+                        string+="zero";
+                        break;
+                    case '1':
+                        string+="one";
+                        break;
+                    case '2':
+                        string+="two";
+                        break;
+                    case '3':
+                        string+="three";
+                        break;
+                    case '4':
+                        string+="four";
+                        break;
+                    case '5':
+                        string+="five";
+                        break;
+                    case '6':
+                        string+="six";
+                        break;
+                    case '7':
+                        string+="seven";
+                        break;
+                    case '8':
+                        string+="eight";
+                        break;
+                    case '9':
+                        string+="nine";
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+                if (j!=numbers[i].length()-1) {
+                    string+="-";
+                }
+                        }
+            list.add(string);
+        }
+        Collections.sort(list);
+        List<String> nums=new ArrayList<String>();
+        for (String string : list) {
+            String g="";
+           String [] num=string.split("-");
+            for (int i = 0; i < num.length; i++) {
+                switch (num[i]) {
+                    case "zero":
+                        g+=("0");
+                        break;
+                    case "one":
+                        g+=("1");
+                        break;
+                    case "two":
+                        g+=("2");
+                        break;
+                    case "three":
+                        g+=("3");
+                        break;
+                    case "four":
+                       g+=("4");
+                        break;
+                    case "five":
+                        g+=("5");
+                        break;
+                    case "six":
+                        g+=("6");
+                        break;
+                    case "seven":
+                       g+=("7");
+                        break;
+                    case "eight":
+                       g+=("8");
+                        break;
+                    case "nine":
+                        g+=("9");
+                        break;
+                    case "ten":
+                        g+=("10");
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+            }
+            nums.add(g);
+        }
+        System.out.println(String.join(", ", nums));
+    }
+}
