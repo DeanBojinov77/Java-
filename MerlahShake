@@ -1,0 +1,55 @@
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Dean
+ */
+public class MerlahSnake {
+    public static void main(String[] args) {
+      Scanner sc=new Scanner(System.in);
+      String string=sc.nextLine();
+      String pattern=sc.nextLine();
+      String [] massive=new String[3];
+        while (true) {
+            int index=string.indexOf(pattern.toString());
+            if (index==-1) {
+                System.out.println("No shake.");
+                System.out.println(string);
+                break;
+            }
+            int lastIndex=string.lastIndexOf(pattern.toString());
+            if (lastIndex==-1) {
+                System.out.println("No shake.");
+                System.out.println(string);
+                break;
+            }
+            if (index==lastIndex) {
+                System.out.println("No shake.");
+                System.out.println(string);
+                break;
+            }
+             if (pattern.equals("")) {
+                System.out.println("No shake.");
+                System.out.println(string);
+                break;
+            }
+           massive[0]=string.substring(0,index);
+           massive[1]=string.substring(index+pattern.length(), lastIndex);
+           massive[2]=string.substring(lastIndex+pattern.length(),string.length());
+           string=massive[0]+massive[1]+massive[2];
+            System.out.println("Shaked it.");
+            index=pattern.length()/2;
+           massive[0]=pattern.substring(0,index);
+           massive[1]=pattern.substring(index+1,pattern.length());
+           pattern=massive[0]+massive[1];
+        }
+    }
+}
